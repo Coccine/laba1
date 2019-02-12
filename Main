@@ -1,0 +1,92 @@
+#include <iostream>
+
+
+using namespace std;
+
+int main()
+{
+	setlocale(LC_ALL, "RU");
+	size_t n, m, k = 0;
+	cout << "Введите количество строк и столбцов: ";
+	cin >> n >> m;
+	if (n <= 0 | m <= 0) {
+		cout << "Количество строк и столбцов не мб отрицательным" << endl;
+		system("pause");
+		exit(1);
+	}
+	double **A = new double*[n];
+	double *B;
+
+	//// Создание матрицы и ее заполнение
+	for (size_t i = 0; i < n; i++)
+	{
+		A[i] = new double[m];
+	}
+	for (size_t i = 0; i < n; i++)
+	{
+		for (size_t j = 0; j < m; j++)
+		{
+			cout << "Введите элемент " << i + 1 << " строки " << j + 1 << " столбца: ";
+			cin >> A[i][j];
+		}
+	}
+
+	//////////// Создание нового массива ////////////////////
+
+	for (size_t i = 0; i < n; i++)
+	{
+		for (size_t j = 0; j < m; j++)
+		{
+			if (A[i][j] < 0)
+				k++;
+		}
+	}
+	B = new double[k];
+	k = 0;
+	for (size_t i = 0; i < n; i++)
+	{
+		for (size_t j = 0; j < m; j++)
+		{
+			if (A[i][j] < 0) {
+				B[k] = A[i][j];
+				k++;
+			}
+		}
+	}
+
+	//// Сортировка массива B
+	if (k > 1) {
+		double temp;
+		for (size_t i = 0; i < k; i++)
+		{
+			for (size_t j = i + 1; j < m; j++) {
+
+				if (B[i] > B[j]) {
+					temp = B[i];
+					B[i] = B[j];
+					B[j] = temp;
+				}
+			}
+		}
+	}
+
+
+	//// Вывод
+	cout << "A matrix: " << endl;
+	for (size_t i = 0; i < n; i++)
+	{
+		for (size_t j = 0; j < m; j++)
+		{
+			cout << A[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cout << "B matrix: ";
+	for (size_t i = 0; i < k; i++) {
+		cout << B[i];
+	}
+	cout << endl;
+
+	system("pause");
+	return 0;
+}
