@@ -1,15 +1,107 @@
 #include <iostream>
-
+#include <string>
 
 using namespace std;
+
+
+enum Comands{RUN=1, OPTION, EXIT, RANDOM=1, SAVE, BACK, CMNDEXIT};
+void runProgram();
+
+
+class Menu
+{
+private:
+	int choose = 0;
+	string str;
+	Comands cmnd;
+public:
+	void setMainMenu();
+	void setOptionsMenu();
+	Comands setComand(int value);
+public:
+	Menu(string str)
+	{
+		this->str = str;
+	}
+};
+
+
+void Menu::setMainMenu()
+{
+	choose = 0;
+	cout << "\t\t" << str << endl;
+	cout << "_Run_" << endl;
+	cout << "_Options_" << endl;
+	cout << "_Exit_" << endl << "Choose an option: ";
+	cin >> choose;
+	cmnd = setComand(choose);
+	do {
+		switch (cmnd)
+		{
+		case RUN:
+			runProgram();
+			break;
+		case OPTION:
+			setOptionsMenu();
+			break;
+		default:
+			break;
+		}
+	} while (cmnd != EXIT);
+}
+
+void Menu::setOptionsMenu()
+{
+	choose = 0;
+	cout << "\t\tOptions" << endl;
+	cout << "Set random values." << endl;
+	cout << "Save results in file." << endl;
+	cout << "Back" << endl;
+	cout << "Exit" << endl;
+	cin >> choose;
+	cmnd = setComand(choose);
+	do {
+		switch (cmnd)
+		{
+		case RANDOM:
+
+			break;
+		case SAVE:
+			break;
+		case BACK:
+			setMainMenu();
+			break;
+		default:
+			break;
+		}
+	} while (cmnd != CMNDEXIT);
+}
+
+Comands Menu::setComand(int value)
+{
+	Comands cmd;
+	cmd = static_cast<Comands>(value);
+	return cmd;
+}
 
 int main()
 {
 	setlocale(LC_ALL, "RU");
+	Menu myMenu("Laba1");
+	myMenu.setMainMenu();
+
+
+
+	system("pause");
+	return 0;
+}
+
+void runProgram()
+{
 	size_t n, m, k = 0;
 	cout << "Введите количество строк и столбцов: ";
 	cin >> n >> m;
-	if (n <= 0 | m <= 0) {
+	if (n <= 0 || m <= 0) {
 		cout << "Количество строк и столбцов не мб отрицательным" << endl;
 		system("pause");
 		exit(1);
@@ -87,6 +179,8 @@ int main()
 	}
 	cout << endl;
 
-	system("pause");
-	return 0;
+	for (size_t i = 0; i < n; i++)
+		delete[] A[i];
+	delete[] A;
+	delete[] B;
 }
